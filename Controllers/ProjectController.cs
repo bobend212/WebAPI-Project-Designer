@@ -55,11 +55,52 @@ namespace ProjectsDbAPI.Controllers
         [HttpPost]
         public ActionResult Post([FromBody]ProjectDto model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var project = _mapper.Map<Project>(model);
             _context.Projects.Add(project);
             _context.SaveChanges();
 
             return Ok(project);
+        }
+
+        [HttpPut("{projName}")]
+        public ActionResult Put(string projName, [FromBody]ProjectDto model)
+        {
+            var project = _context.Projects
+                .FirstOrDefault(x => x.ProjName == projName);
+
+            if (project == null)
+                return Content("Brak projektu o podanej NAZWIE w bazie!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            project.ProjNumber = model.ProjNumber;
+            project.ProjName = model.ProjName;
+            project.DateStarted = model.DateStarted;
+            project.DateFinished = model.DateFinished;
+            project.IsFinished = model.IsFinished;
+            project.Description = model.Description;
+
+            _context.SaveChanges();
+            return Ok(project);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var project = _context.Projects
+                .FirstOrDefault(x => x.Id == id);
+
+            if (project == null)
+                return Content("Brak projektu o podanym ID w bazie!");
+
+            _context.Projects.Remove(project);
+            _context.SaveChanges();
+
+            return Content("Pomyslnie usunieto rekord z bazy!");
         }
     }
 }

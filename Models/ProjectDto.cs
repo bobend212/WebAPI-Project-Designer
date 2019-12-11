@@ -9,6 +9,7 @@ namespace ProjectsDbAPI.Models
     public class ProjectDto
     {
         [Required]
+        [MinLength(2)]
         public string ProjNumber { get; set; }
         [Required]
         public string ProjName { get; set; }
