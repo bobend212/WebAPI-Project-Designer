@@ -23,31 +23,33 @@ namespace ProjectsDbAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ProjectDetialsDto>> Get()
+        public ActionResult<List<ProjectDetailsDto>> Get()
         {
             var projects = _context.Projects
                 .Include(x => x.Department)
+                .Include(x => x.Designers)
                 .ToList();
 
             if (!projects.Any())
                 return Content("Brak projektow w bazie!");
 
-            var projectsDto = _mapper.Map<List<ProjectDetialsDto>>(projects);
+            var projectsDto = _mapper.Map<List<ProjectDetailsDto>>(projects);
 
             return Ok(projectsDto);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ProjectDetialsDto> GetProject(int id)
+        public ActionResult<ProjectDetailsDto> GetProject(int id)
         {
             var project = _context.Projects
                 .Include(x => x.Department)
+                .Include(x => x.Designers)
                 .FirstOrDefault(x => x.Id == id);
 
             if (project == null)
                 return Content("Brak projektu o podanym ID w bazie!");
 
-            var projectDto = _mapper.Map<ProjectDetialsDto>(project);
+            var projectDto = _mapper.Map<ProjectDetailsDto>(project);
 
             return Ok(projectDto);
         }

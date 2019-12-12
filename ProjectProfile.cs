@@ -11,12 +11,15 @@ namespace ProjectsDbAPI
     {
         public ProjectProfile()
         {
-            CreateMap<Project, ProjectDetialsDto>()
+            CreateMap<Project, ProjectDetailsDto>()
                 .ForMember(x => x.DeptName, map => map.MapFrom(project => project.Department.DeptName))
                 .ForMember(x => x.DeptShortName, map => map.MapFrom(project => project.Department.DeptShortName));
 
             CreateMap<ProjectDto, Project>();
-                
+
+            CreateMap<DesignerDto, Designer>()
+                .ReverseMap();
+
         }
     }
 }

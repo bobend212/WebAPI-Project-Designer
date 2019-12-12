@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectsDbAPI.Models
 {
-    public class ProjectDetialsDto
+    public class ProjectDetailsDto
     {
         [Required]
         public string ProjNumber { get; set; }
@@ -21,5 +21,8 @@ namespace ProjectsDbAPI.Models
         [Required]
         public string DeptName { get; set; }
         public string? DeptShortName { get; set; }
+
+        public List<DesignerDto> Designers { get; set; }
+
     }
 }
