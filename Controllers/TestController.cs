@@ -21,10 +21,5 @@ namespace ProjectsDbAPI.Controllers
         {
             return "ID: " + id;
         }
-
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
     }
 }
