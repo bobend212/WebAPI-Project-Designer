@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using ProjectsDbAPI.Models;
 
@@ -31,11 +32,21 @@ namespace ProjectsDbAPI
             services.AddControllers();
             services.AddDbContext<ProjectContext>();
             services.AddAutoMapper(this.GetType().Assembly);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v0.01", new OpenApiInfo { Title = "ProjectsAPI", Version = "v0.01" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v0.01/swagger.json", "ProjectsAPI v0.0.1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
